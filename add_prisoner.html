@@ -222,13 +222,13 @@
                             <div class="col-6">
 								<div class="form-group">
 									<label for="">Entry Date</label>
-									<input id = "prisoner-entry-date" type="text" name="" class="form-control" placeholder="Prisoner Entry Date" required>
+									<input id = "prisoner-entry-date" type="date" name="" class="form-control" placeholder="Prisoner Entry Date" required>
 								</div>
 							</div>
                             <div class="col-6">
 								<div class="form-group">
 									<label for="">Release Date</label>
-									<input id = "prisoner-release-date" type="text" name="" class="form-control" placeholder="Prisoner Release Date" required>
+									<input id = "prisoner-release-date" type="date" name="" class="form-control" placeholder="Prisoner Release Date" required>
 								</div>
 							</div>
 						</div>
@@ -265,8 +265,8 @@
             const id = document.getElementById("prisoner-id").value
             const name = document.getElementById("prisoner-name").value
             const address = document.getElementById("prisoner-address").value
-            const entry_date = document.getElementById("prisoner-entry-date").value
-            const release_date = document.getElementById("prisoner-release-date").value
+            const entry_date = document.getElementById("prisoner-entry-date").value.toString()
+            const release_date = document.getElementById("prisoner-release-date").value.toString()
             const cell_id = document.getElementById("prisoner-cell-number").value
             const crimes = document.getElementById("prisoner-crimes").value.split(",")
 
@@ -289,9 +289,16 @@
                         'Content-Type': 'application/json'}  
                     })
             .then((res)=>{
-                //location.reload()
-                window.location.href = "prisoner.html";
+				return res.json()
+                // window.location.href = "prisoner.html";
             })
+			.then((data)=>{
+				if (data.error){
+					alert(data.error)
+				}else{
+					window.location.href = "prisoner.html";
+				}
+			})
         }
         function validate(body){
             const errorString = "Fields can not be empty"

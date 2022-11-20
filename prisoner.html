@@ -238,7 +238,7 @@
                 </div>
                 <div class="col-9">
                     <div class="form-group">
-                        <input id="prisoner-entry-date" type="text" name="" class="form-control" placeholder="enter prisoner entry date" cols="30" rows="10" />
+                        <input id="prisoner-entry-date" type="date" name="" class="form-control" placeholder="enter prisoner entry date" cols="30" rows="10" />
                     </div>
                 </div>
                 <div class="col-3">
@@ -246,7 +246,7 @@
                 </div>
                 <div class="col-9">
                     <div class="form-group">
-                        <input id="prisoner-release-date" type="text" name="" class="form-control" placeholder="enter prisoner release date" cols="30" rows="10" />
+                        <input id="prisoner-release-date" type="date" name="" class="form-control" placeholder="enter prisoner release date" cols="30" rows="10" />
                     </div>
                 </div>
             </div>
@@ -266,8 +266,8 @@
         const id = document.getElementById("prisoner-id").value
         const name = document.getElementById("prisoner-name").value
         const address = document.getElementById("prisoner-address").value
-        const entry_date = document.getElementById("prisoner-entry-date").value
-        const release_date = document.getElementById("prisoner-release-date").value
+        const entry_date = document.getElementById("prisoner-entry-date").value.toString()
+        const release_date = document.getElementById("prisoner-release-date").value.toString()
         const cell_id = document.getElementById("prisoner-cell-number").value
         const crimes = document.getElementById("prisoner-crimes").value.split(",")
 
@@ -304,6 +304,7 @@
         .then((data)=>{
             //renderDataInTheTable(data);
             const sec = document.getElementById("prisoner-table")
+            data.sort((a,b)=>b.id-a.id)
             data.forEach(prisoner => {
                 console.log("inside forEach-----")
                 prisonerList = `

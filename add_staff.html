@@ -175,7 +175,7 @@
 							<div class="col-6">
 								<div class="form-group">
 									<label for="">Phone Number</label>
-									<input type="text" name="" id = "staff-phone-number" class="form-control" id="" placeholder="enter phone number" />
+									<input type="number" name="" id = "staff-phone-number" class="form-control" id="" placeholder="enter phone number" />
 								</div>
 							</div>
 							<!-- <div class="col-6">
@@ -244,8 +244,15 @@
 						'Content-Type': 'application/json'}  
 					})
 			.then((res)=>{
-				//location.reload()
-				window.location.href = "staff_list.html";
+				return res.json()
+			})
+			.then((data)=>{
+				if (data.error){
+					alert(data.error)
+				}else{
+					window.location.href = "staff_list.html";
+				}
+				
 			})
 		}
 			function validate(body){

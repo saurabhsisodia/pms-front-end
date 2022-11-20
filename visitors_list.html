@@ -153,7 +153,8 @@
                                 <th>Relation with Prisoner</th>
                                 <th>Address</th>
                                 <th>Phone Number</th>
-                                <th>Visiting Date</th>
+                                <th>Visit Start Date</th>
+                                <th>Visit End Date</th>
                             </tr>
                         </thead>
                     </table>
@@ -238,15 +239,23 @@
                 </div>
                 <div class="col-9">
                     <div class="form-group">
-                        <input id = "visitor-phone-number" type="text" name="" class="form-control" placeholder="enter visitor phone number" />
+                        <input id = "visitor-phone-number" type="number" name="" class="form-control" placeholder="enter visitor phone number" />
                     </div>
                 </div>
                 <div class="col-3">
-                    Date
+                    Visit Start Date
                 </div>
                 <div class="col-9">
                     <div class="form-group">
-                        <input id = "visitor-visiting-date" type="text" name="" class="form-control" placeholder="enter visitor's visiting date" />
+                        <input id = "visitor-visit-start-date" type="datetime-local" name="" class="form-control" placeholder="enter visitor's visit start datetime" />
+                    </div>
+                </div>
+                <div class="col-3">
+                    Visit End Date
+                </div>
+                <div class="col-9">
+                    <div class="form-group">
+                        <input id = "visitor-visit-end-date" type="datetime-local" name="" class="form-control" placeholder="enter visitor's visit end datetime" />
                     </div>
                 </div>
             </div>
@@ -270,7 +279,8 @@
         const relation = document.getElementById("visitor-relation").value
         const address = document.getElementById("visitor-address").value
         const phone_number = document.getElementById("visitor-phone-number").value
-        const visiting_date = document.getElementById("visitor-visiting-date").value
+        const visit_start_date = document.getElementById("visitor-visit-start-date").value.toString()
+        const visit_end_date = document.getElementById("visitor-visit-end-date").value.toString()
 
         const body = {
             "id":id,
@@ -279,7 +289,8 @@
             "relation":relation,
             "address":address,
             "phone_number":phone_number,
-            "visiting_date":visiting_date
+            "visit_start_date":visit_start_date,
+            "visit_end_date":visit_end_date,
         }
         if (!validate(body)){
 				return
@@ -303,13 +314,14 @@
 				alert("Fields can not be empty")
 				return false
 			}
-			if (body.visiting_date.length == 0){
+			if (body.visit_start_date.length == 0 || body.visit_end_date.length == 0){
 				alert("Fields can not be empty")
 				return false
 			}
 			return true
 		}
     function getAllVisitors(){
+        
         var visitorList = "";
         const url = "http://localhost:3000/api/visitors"
         fetch(url)
@@ -318,6 +330,7 @@
         })
         .then((data)=>{
             const sec = document.getElementById("visitor-table")
+            data.sort((a,b)=>b.id-a.id)
             data.forEach(visitor => {
                 visitorList = `
                                 <tr>
@@ -327,7 +340,8 @@
                                 <td>${visitor.relation}</td>
                                 <td>${visitor.address}</td>
                                 <td>${visitor.phone_number}</td>
-                                <td>${visitor.visiting_date}</td>
+                                <td>${visitor.visit_start_date}</td>
+                                <td>${visitor.visit_end_date}</td>
                                 <td>
                                     <button value=${visitor.id} class="btn btn-sm" data-toggle="modal" data-target="#myModal"><i class="fa fa-edit"></i></button>
                                     <button onclick = "deleteVisitorById(${visitor.id})" class="btn btn-sm"><i class="fa fa-trash"></i></button>

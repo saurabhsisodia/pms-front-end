@@ -187,13 +187,19 @@
 							<div class="col-6">
 								<div class="form-group">
 									<label for="">Phone Number</label>
-									<input id = "visitor-phone-number" name="" class="form-control" placeholder="enter visitor phone number" />
+									<input id = "visitor-phone-number" type = "number" name="" class="form-control" placeholder="enter visitor phone number" />
 								</div>
 							</div>
 							<div class="col-6">
 								<div class="form-group">
-									<label for="">Date</label>
-									<input id = "visitor-visiting-date" type = "text" name="" class="form-control"  placeholder="enter visitor's visiting date" >
+									<label for="">Visit Start Datetime</label>
+									<input id = "visitor-visit-start-date" type = "datetime-local" name="" class="form-control"  placeholder="enter visitor's visit start date time" >
+								</div>
+							</div>
+							<div class="col-6">
+								<div class="form-group">
+									<label for="">Visit End Datetime</label>
+									<input id = "visitor-visit-end-date" type = "datetime-local" name="" class="form-control"  placeholder="enter visitor's visit end date time" >
 								</div>
 							</div>
 						</div>
@@ -232,7 +238,8 @@
 			const relation = document.getElementById("visitor-relation").value
 			const address = document.getElementById("visitor-address").value
 			const phone_number = document.getElementById("visitor-phone-number").value
-			const visiting_date = document.getElementById("visitor-visiting-date").value
+			const visit_start_date = document.getElementById("visitor-visit-start-date").value.toString()
+			const visit_end_date = document.getElementById("visitor-visit-end-date").value.toString()
 
 			const url = "http://localhost:3000/api/visitor";
 
@@ -243,7 +250,8 @@
 				"relation":relation,
 				"address":address,
 				"phone_number":phone_number,
-				"visiting_date":visiting_date
+				"visit_start_date":visit_start_date,
+				"visit_end_date":visit_end_date,
         	}
 
 			if (!validate(body)){
@@ -253,8 +261,14 @@
 						'Content-Type': 'application/json'}  
 					})
 			.then((res)=>{
-				//location.reload()
-				window.location.href = "visitors_list.html";
+				return res.json()
+			})
+			.then((data)=>{
+				if (data.error){
+					alert(data.error)
+				}else{
+					window.location.href = "visitors_list.html";
+				}
 			})
 		}
 		function validate(body){
@@ -266,7 +280,7 @@
 				alert("Fields can not be empty")
 				return false
 			}
-			if (body.visiting_date.length == 0){
+			if (body.visit_start_date.length == 0 || body.visit_end_date.length==0){
 				alert("Fields can not be empty")
 				return false
 			}

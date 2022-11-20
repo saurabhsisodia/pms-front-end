@@ -220,7 +220,7 @@
                 </div>
                 <div class="col-9">
                     <div class="form-group">
-                        <input id = "staff-phone-number" type="text" name="" class="form-control" id="" placeholder="enter phone number"/>
+                        <input id = "staff-phone-number" type="number" name="" class="form-control" id="" placeholder="enter phone number"/>
                     </div>
                 </div>
                 <div class="col-3">
@@ -292,6 +292,7 @@
             return res.json();
         })
         .then((data)=>{
+            data.sort((a,b)=>b.id-a.id)
             const sec = document.getElementById("staff-table")
             data.forEach(staff => {
                 staffList = `
